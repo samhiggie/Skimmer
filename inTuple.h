@@ -18,7 +18,7 @@ class inTuple{
     TTree       *_tree;
     Int_t       treeNum;
 
-    Float_t     *event;
+    ULong64_t     event;
     TBranch     *b_event;
 
 
@@ -46,6 +46,8 @@ void inTuple::Init(TTree* tree){
 
   _tree = tree;
   _tree->SetMakeClass(1);
+  _tree->SetBranchStatus("*",0);
+  _tree->SetBranchStatus("event",1);
   _tree->SetBranchAddress("event",&event,&b_event);
 }
 

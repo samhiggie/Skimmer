@@ -37,6 +37,7 @@ int main(int argc, char** argv) {
   TTree * inTree = (TTree*) fileIn->Get("Events");
   Float_t     *event;
   TBranch     *b_event;
+  inTree->SetBranchStatus("*",0);
   inTree->SetBranchAddress("event",&event,&b_event);
 
   //outtuple

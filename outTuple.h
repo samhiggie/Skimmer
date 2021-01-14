@@ -10,6 +10,7 @@
 
 
 #include <TROOT.h>
+#include <TMath.h>
 #include <TChain.h>
 #include <TFile.h>
 
@@ -21,9 +22,18 @@ class outTuple {
     TTree       *_tree;
     Int_t       treeNum;
 
-    Float_t     *value;
-    TBranch     *b_value;
+    //current variables - make this into a class later
+    //datatype
+    unsigned int     value;
 
+    //branch
+    TBranch     b_value;
+
+    //new variables
+    float  newvar;
+
+    //new branch
+    TBranch b_newvar;
 
     // function methods and inheritance
     outTuple (TTree* tree);
@@ -49,9 +59,14 @@ outTuple::~outTuple(){}
 
 void outTuple::Init(TTree* tree){
   _tree = tree;
-  _tree->SetMakeClass(1);
+  //_tree->SetMakeClass(1);
 
+  //current variables
   _tree->Branch("value",&value,"value/I");
+
+  //new variables
+  _tree->Branch("newvar",&newvar,"newvar/F");
+
 }
 
 Int_t outTuple::GetEntry(int entry)
@@ -77,6 +92,10 @@ void outTuple::write(TFile* tfile){
 void outTuple::fill(inTuple* iTuple, int entry){
   iTuple->GetEntry(entry);
   value = iTuple->event;
+  std::cout<<" event number "<<iTuple->event<<std::endl;
+  newvar =  3.1415926534 * (value);
+
+  //newvar = value;
 
   _tree->Fill();
 
